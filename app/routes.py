@@ -30,17 +30,17 @@ def index():
 @main_bp.route("/upload", methods=["POST"])
 def upload():
     """Validate and save an uploaded PDF file."""
-    pdf_file = request.files["pdf_file"]
+    pdf_file = request.files.get("pdf_file")
 
     if not pdf_file or not pdf_file.filename:
-        return "No file selected", 400
+        return "请选择要上传的 PDF 文件。", 400
 
     if not pdf_file.filename.lower().endswith(".pdf"):
-        return "Only PDF files are allowed", 400
+        return "仅支持上传 PDF 文件。", 400
 
     filename = secure_filename(pdf_file.filename)
     if not filename:
-        return "Invalid filename", 400
+        return "文件名无效，请重新选择文件。", 400
 
     file_path = os.path.join(current_app.config["UPLOAD_FOLDER"], filename)
     pdf_file.save(file_path)
