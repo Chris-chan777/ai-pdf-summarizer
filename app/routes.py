@@ -1,4 +1,7 @@
-from flask import Blueprint, render_template
+import os
+
+from flask import Blueprint, current_app, render_template, request
+from werkzeug.utils import secure_filename
 
 # ---------------------------------------------------------------
 # 创建蓝图
@@ -20,3 +23,24 @@ def index():
     # render_template() 去 templates/ 目录找 index.html，
     # 用 Jinja2 引擎渲染后返回 HTML 响应给浏览器。
     return render_template("index.html")
+
+
+@main_bp.route("/upload", methods=["POST"])
+def upload():
+    """Validate and save an uploaded PDF file."""
+    pdf_file = request.files["pdf_file"]
+
+    if not pdf_file or not pdf_file.filename:
+        return "No file selected", 400
+
+    if not pdf_file.filename.lower().endswith(".pdf"):
+        return "Only PDF files are allowed", 400
+
+    filename = secure_filename(pdf_file.filename)
+    if not filename:
+        return "Invalid filename", 400
+
+    save_path = os.path.join(current_app.config["UPLOAD_FOLDER"], filename)
+    pdf_file.save(save_path)
+
+    return render_template("result.html", filename=filename)
