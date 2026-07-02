@@ -3,6 +3,8 @@ import os
 from flask import Blueprint, current_app, render_template, request
 from werkzeug.utils import secure_filename
 
+from app.utils.pdf_utils import extract_text_from_pdf
+
 # ---------------------------------------------------------------
 # 创建蓝图
 # ---------------------------------------------------------------
@@ -40,7 +42,13 @@ def upload():
     if not filename:
         return "Invalid filename", 400
 
-    save_path = os.path.join(current_app.config["UPLOAD_FOLDER"], filename)
-    pdf_file.save(save_path)
+    file_path = os.path.join(current_app.config["UPLOAD_FOLDER"], filename)
+    pdf_file.save(file_path)
 
-    return render_template("result.html", filename=filename)
+    extracted_text = extract_text_from_pdf(file_path)
+
+    return render_template(
+        "result.html",
+        filename=filename,
+        extracted_text=extracted_text,
+    )
