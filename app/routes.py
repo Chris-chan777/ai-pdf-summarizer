@@ -32,6 +32,7 @@ def index():
 def upload():
     """Validate and save an uploaded PDF file."""
     pdf_file = request.files.get("pdf_file")
+    study_options = request.form.getlist("study_options")
 
     if pdf_file is None:
         return render_template(
@@ -80,6 +81,7 @@ def upload():
         original_filename=original_filename,
         saved_filename=saved_filename,
         extracted_text=extracted_text,
+        study_options=study_options,
     )
 
 
