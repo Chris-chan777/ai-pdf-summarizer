@@ -6,13 +6,13 @@ AI PDF Summarizer 是一个基于 Flask 的 PDF 文档处理 Web 应用。用户
 
 ## 项目截图
 
-### 首页
+### 首页上传页面
 
-![AI PDF Summarizer 首页](docs/images/home.png)
+![首页上传页面](docs/images/home.png)
 
-### 文本提取结果
+### PDF 文本提取结果页
 
-![PDF 文本提取结果](docs/images/result.png)
+![PDF 文本提取结果页](docs/images/result.png)
 
 ## 当前功能
 
