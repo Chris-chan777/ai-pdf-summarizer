@@ -33,23 +33,45 @@ def upload():
     """Validate and save an uploaded PDF file."""
     pdf_file = request.files.get("pdf_file")
 
-    if not pdf_file or not pdf_file.filename:
-        return "请选择要上传的 PDF 文件。", 400
+    if pdf_file is None:
+        return render_template(
+            "error.html",
+            message="未找到上传文件，请返回首页重新选择。",
+        ), 400
+
+    if not pdf_file.filename:
+        return render_template(
+            "error.html",
+            message="请选择要上传的 PDF 文件。",
+        ), 400
 
     if not pdf_file.filename.lower().endswith(".pdf"):
-        return "仅支持上传 PDF 文件。", 400
+        return render_template(
+            "error.html",
+            message="仅支持上传 PDF 文件。",
+        ), 400
 
     original_filename = pdf_file.filename
     safe_filename = secure_filename(original_filename)
     if not safe_filename:
-        return "文件名无效，请重新选择文件。", 400
+        return render_template(
+            "error.html",
+            message="文件名无效，请重新选择文件。",
+        ), 400
 
     saved_filename = f"{uuid4().hex}.pdf"
     file_path = os.path.join(
         current_app.config["UPLOAD_FOLDER"],
         saved_filename,
     )
-    pdf_file.save(file_path)
+    try:
+        pdf_file.save(file_path)
+    except Exception:
+        current_app.logger.exception("Failed to save uploaded PDF")
+        return render_template(
+            "error.html",
+            message="文件上传失败，请稍后重试。",
+        ), 500
 
     extracted_text = extract_text_from_pdf(file_path)
 
@@ -59,3 +81,12 @@ def upload():
         saved_filename=saved_filename,
         extracted_text=extracted_text,
     )
+
+
+@main_bp.app_errorhandler(413)
+def file_too_large(error):
+    """Show a friendly page when an upload exceeds the size limit."""
+    return render_template(
+        "error.html",
+        message="上传文件过大，请选择不超过 16 MB 的 PDF 文件。",
+    ), 413
