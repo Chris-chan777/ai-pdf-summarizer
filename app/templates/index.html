@@ -1,0 +1,87 @@
+<!-- 继承 base.html 的骨架（导航栏、容器、页脚） -->
+{% extends "base.html" %}
+
+<!-- ========================================================== -->
+<!-- 覆盖父模板的标题块：浏览器标签页上显示的文字             -->
+<!-- ========================================================== -->
+{% block title %}AI PDF Summarizer - 上传 PDF{% endblock %}
+
+<!-- ========================================================== -->
+<!-- 覆盖父模板的 content 块：填充首页的核心内容             -->
+<!-- ========================================================== -->
+{% block content %}
+
+<!-- ---------------------------------------------------------- -->
+<!-- 页面主标题                                             -->
+<!-- ---------------------------------------------------------- -->
+<h1 class="text-center mb-4">📄 上传 PDF 文件</h1>
+
+<!-- ---------------------------------------------------------- -->
+<!-- 引导说明文字：一句话告诉用户要做什么                    -->
+<!-- ---------------------------------------------------------- -->
+<p class="text-center text-muted mb-4">
+    选择一个 PDF 文件，我们将为您提取其中的文本内容。
+</p>
+
+<!-- ---------------------------------------------------------- -->
+<!-- Bootstrap Card：将表单包裹在卡片中，视觉聚焦            -->
+<!-- ---------------------------------------------------------- -->
+<div class="row justify-content-center">
+    <div class="col-md-8 col-lg-6">
+
+        <div class="card shadow-sm">
+
+            <!-- ------ 卡片头部 ------ -->
+            <div class="card-header fw-bold">
+                选择文件
+            </div>
+
+            <!-- ------ 卡片主体：上传表单 ------ -->
+            <div class="card-body">
+
+                <!--
+                  表单属性说明：
+                    action="/upload"   → 数据提交到 /upload 路由（后续实现）
+                    method="POST"      → 上传文件必须用 POST
+                    enctype="multipart/form-data"
+                                       → 必须！否则文件数据不会随表单发送
+                -->
+                <form action="/upload" method="POST" enctype="multipart/form-data">
+
+                    <!-- ------- 文件选择器 ------- -->
+                    <div class="mb-3">
+                        <label for="pdfFile" class="form-label">请选择 PDF 文件</label>
+                        <input
+                            type="file"
+                            class="form-control"
+                            id="pdfFile"
+                            name="pdf_file"
+                            accept=".pdf"
+                            required
+                        >
+                        <!--
+                          accept=".pdf"  → 文件选择器只显示 PDF 文件
+                          required       → HTML5 原生校验：未选文件时阻止提交
+                          name="pdf_file" → 后端 Flask 通过 request.files["pdf_file"] 获取
+                        -->
+                        <div class="form-text">
+                            支持 PDF 格式，最大 16 MB。
+                        </div>
+                    </div>
+
+                    <!-- ------- 提交按钮 ------- -->
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-primary btn-lg">
+                            提取文本
+                        </button>
+                    </div>
+
+                </form>
+            </div>  <!-- card-body 结束 -->
+
+        </div>  <!-- card 结束 -->
+
+    </div>
+</div>
+
+{% endblock %}
