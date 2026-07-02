@@ -4,6 +4,7 @@ from uuid import uuid4
 from flask import Blueprint, current_app, render_template, request
 from werkzeug.utils import secure_filename
 
+from app.study_options import STUDY_OPTIONS
 from app.utils.pdf_utils import extract_text_from_pdf
 
 # ---------------------------------------------------------------
@@ -25,14 +26,20 @@ def index():
     """首页 —— 展示 PDF 上传表单"""
     # render_template() 去 templates/ 目录找 index.html，
     # 用 Jinja2 引擎渲染后返回 HTML 响应给浏览器。
-    return render_template("index.html")
+    return render_template("index.html", study_options=STUDY_OPTIONS)
 
 
 @main_bp.route("/upload", methods=["POST"])
 def upload():
     """Validate and save an uploaded PDF file."""
     pdf_file = request.files.get("pdf_file")
-    study_options = request.form.getlist("study_options")
+    submitted_study_options = request.form.getlist("study_options")
+    submitted_values = set(submitted_study_options)
+    selected_study_options = [
+        option
+        for option in STUDY_OPTIONS
+        if option["value"] in submitted_values
+    ]
 
     if pdf_file is None:
         return render_template(
@@ -81,7 +88,7 @@ def upload():
         original_filename=original_filename,
         saved_filename=saved_filename,
         extracted_text=extracted_text,
-        study_options=study_options,
+        study_options=selected_study_options,
     )
 
 

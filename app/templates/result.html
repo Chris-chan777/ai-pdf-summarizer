@@ -21,7 +21,7 @@
                         {% if study_options %}
                             <ul class="mb-0">
                                 {% for option in study_options %}
-                                    <li>{{ option }}</li>
+                                    <li>{{ option.label }}</li>
                                 {% endfor %}
                             </ul>
                         {% else %}
@@ -37,21 +37,9 @@
                             <div class="list-group list-group-flush">
                                 {% for option in study_options %}
                                     <div class="list-group-item px-0">
-                                        <h3 class="h6 mb-2">{{ option }}</h3>
+                                        <h3 class="h6 mb-2">{{ option.label }}</h3>
                                         <p class="text-muted mb-0">
-                                            {% if option == "核心知识点总结" %}
-                                                这里将根据 PDF 内容生成核心知识点总结。
-                                            {% elif option == "考试重点整理" %}
-                                                这里将根据 PDF 内容整理考试重点。
-                                            {% elif option == "名词解释 / 概念解释" %}
-                                                这里将根据 PDF 内容生成重要概念解释。
-                                            {% elif option == "选择题练习" %}
-                                                这里将根据 PDF 内容生成选择题练习。
-                                            {% elif option == "简答题练习" %}
-                                                这里将根据 PDF 内容生成简答题练习。
-                                            {% elif option == "考前速记版" %}
-                                                这里将根据 PDF 内容生成考前速记版。
-                                            {% endif %}
+                                            {{ option.preview }}
                                         </p>
                                     </div>
                                 {% endfor %}

@@ -39,66 +39,21 @@
                             请选择要生成的复习资料类型
                         </legend>
                         <div class="row g-2">
-                            <div class="col-md-6">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox"
-                                           name="study_options" id="coreSummary"
-                                           value="核心知识点总结" checked>
-                                    <label class="form-check-label" for="coreSummary">
-                                        核心知识点总结
-                                    </label>
+                            {% for option in study_options %}
+                                <div class="col-md-6">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox"
+                                               name="study_options"
+                                               id="studyOption{{ loop.index }}"
+                                               value="{{ option.value }}"
+                                               {% if option.default %}checked{% endif %}>
+                                        <label class="form-check-label"
+                                               for="studyOption{{ loop.index }}">
+                                            {{ option.label }}
+                                        </label>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox"
-                                           name="study_options" id="examFocus"
-                                           value="考试重点整理" checked>
-                                    <label class="form-check-label" for="examFocus">
-                                        考试重点整理
-                                    </label>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox"
-                                           name="study_options" id="conceptExplanation"
-                                           value="名词解释 / 概念解释">
-                                    <label class="form-check-label" for="conceptExplanation">
-                                        名词解释 / 概念解释
-                                    </label>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox"
-                                           name="study_options" id="multipleChoice"
-                                           value="选择题练习">
-                                    <label class="form-check-label" for="multipleChoice">
-                                        选择题练习
-                                    </label>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox"
-                                           name="study_options" id="shortAnswer"
-                                           value="简答题练习">
-                                    <label class="form-check-label" for="shortAnswer">
-                                        简答题练习
-                                    </label>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox"
-                                           name="study_options" id="quickReview"
-                                           value="考前速记版">
-                                    <label class="form-check-label" for="quickReview">
-                                        考前速记版
-                                    </label>
-                                </div>
-                            </div>
+                            {% endfor %}
                         </div>
                     </fieldset>
 

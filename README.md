@@ -23,6 +23,10 @@ AI PDF Summarizer 是一个基于 Flask 的 PDF 文档处理 Web 应用。用户
 - 处理空白、损坏、伪造或加密 PDF
 - 显示原始文件名、保存文件名和提取结果
 - 使用固定高度滚动区域展示长文本
+- 一键复制提取文本
+- 使用统一错误页面反馈上传问题
+- 选择需要生成的复习资料类型
+- 根据所选类型展示复习资料预览占位内容
 
 ## 技术栈
 
@@ -30,7 +34,7 @@ AI PDF Summarizer 是一个基于 Flask 的 PDF 文档处理 Web 应用。用户
 - Flask
 - PyMuPDF
 - Bootstrap 5
-- HTML / CSS
+- HTML / CSS / JavaScript
 
 ## 项目结构
 
@@ -38,15 +42,19 @@ AI PDF Summarizer 是一个基于 Flask 的 PDF 文档处理 Web 应用。用户
 ai-pdf-summarizer/
 ├── app/
 │   ├── static/
-│   │   └── css/
-│   │       └── style.css       # 自定义页面样式
+│   │   ├── css/
+│   │   │   └── style.css       # 自定义页面样式
+│   │   └── js/
+│   │       └── main.js         # 复制文本交互
 │   ├── templates/
 │   │   ├── base.html           # 基础页面模板
+│   │   ├── error.html          # 统一错误页面
 │   │   ├── index.html          # PDF 上传页面
 │   │   └── result.html         # 文本提取结果页面
 │   ├── utils/
 │   │   └── pdf_utils.py        # PDF 文本提取工具
 │   ├── __init__.py             # Flask 应用工厂
+│   ├── study_options.py        # 复习资料选项配置
 │   └── routes.py               # 页面与上传路由
 ├── docs/
 │   └── images/                 # 项目截图
@@ -68,7 +76,7 @@ python run.py
 
 ## 版本进度
 
-### 当前版本
+### 当前版本：v0.8
 
 - [x] Flask 项目基础结构
 - [x] Bootstrap 5 响应式页面
@@ -77,6 +85,10 @@ python run.py
 - [x] PDF 文本提取
 - [x] 异常文件处理
 - [x] 长文本滚动展示
+- [x] 提取文本复制
+- [x] 统一错误页面
+- [x] 复习资料类型选择
+- [x] 复习资料预览区域
 
 ### 后续计划
 
