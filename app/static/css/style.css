@@ -30,6 +30,14 @@ body {
     border-radius: 0.375rem;
 }
 
+/* --- PDF 文本结果区域 --- */
+.extracted-text {
+    max-height: 400px;
+    overflow-y: auto;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+}
+
 /* --- 页脚颜色微调 --- */
 footer {
     color: #999 !important;
