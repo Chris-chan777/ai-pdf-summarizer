@@ -1,4 +1,5 @@
 import os
+from uuid import uuid4
 
 from flask import Blueprint, current_app, render_template, request
 from werkzeug.utils import secure_filename
@@ -38,17 +39,23 @@ def upload():
     if not pdf_file.filename.lower().endswith(".pdf"):
         return "仅支持上传 PDF 文件。", 400
 
-    filename = secure_filename(pdf_file.filename)
-    if not filename:
+    original_filename = pdf_file.filename
+    safe_filename = secure_filename(original_filename)
+    if not safe_filename:
         return "文件名无效，请重新选择文件。", 400
 
-    file_path = os.path.join(current_app.config["UPLOAD_FOLDER"], filename)
+    saved_filename = f"{uuid4().hex}.pdf"
+    file_path = os.path.join(
+        current_app.config["UPLOAD_FOLDER"],
+        saved_filename,
+    )
     pdf_file.save(file_path)
 
     extracted_text = extract_text_from_pdf(file_path)
 
     return render_template(
         "result.html",
-        filename=filename,
+        original_filename=original_filename,
+        saved_filename=saved_filename,
         extracted_text=extracted_text,
     )
