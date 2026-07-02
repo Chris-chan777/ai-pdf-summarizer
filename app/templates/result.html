@@ -15,10 +15,20 @@
                     保存后的文件名：{{ saved_filename }}
                 </p>
 
-                <h2 class="h5 mb-3">提取的文本内容</h2>
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h2 class="h5 mb-0">提取的文本内容</h2>
+                    <button
+                        type="button"
+                        id="copyTextButton"
+                        class="btn btn-outline-primary btn-sm"
+                        aria-live="polite"
+                    >
+                        复制文本
+                    </button>
+                </div>
                 <div class="card bg-light mb-4">
                     <div class="card-body">
-                        <pre class="extracted-text mb-0">{{ extracted_text }}</pre>
+                        <pre id="extractedText" class="extracted-text mb-0">{{ extracted_text }}</pre>
                     </div>
                 </div>
 
@@ -31,4 +41,8 @@
         </div>
     </div>
 </div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{{ url_for('static', filename='js/main.js') }}" defer></script>
 {% endblock %}
