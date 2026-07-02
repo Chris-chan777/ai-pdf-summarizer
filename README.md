@@ -26,7 +26,8 @@ AI PDF Summarizer 是一个基于 Flask 的 PDF 文档处理 Web 应用。用户
 - 一键复制提取文本
 - 使用统一错误页面反馈上传问题
 - 选择需要生成的复习资料类型
-- 根据所选类型展示复习资料预览占位内容
+- 使用 Mock AI 服务生成结构化模拟复习资料
+- 已搭建 Prompt 构建、AI 调用和结果校验流程
 
 ## 技术栈
 
@@ -51,15 +52,20 @@ ai-pdf-summarizer/
 │   │   ├── error.html          # 统一错误页面
 │   │   ├── index.html          # PDF 上传页面
 │   │   └── result.html         # 文本提取结果页面
+│   ├── services/
+│   │   ├── ai_service.py       # Mock AI 服务
+│   │   └── study_material_service.py # 复习资料生成流程
 │   ├── utils/
 │   │   └── pdf_utils.py        # PDF 文本提取工具
 │   ├── __init__.py             # Flask 应用工厂
+│   ├── prompt_builder.py        # AI Prompt 构建
 │   ├── study_options.py        # 复习资料选项配置
 │   └── routes.py               # 页面与上传路由
 ├── docs/
 │   └── images/                 # 项目截图
 ├── uploads/                    # 上传文件目录（不纳入 Git）
 ├── config.py                   # 应用配置
+├── .env.example                # 未来 AI 环境变量示例
 ├── requirements.txt            # Python 依赖
 ├── run.py                      # 项目启动入口
 └── README.md
@@ -74,9 +80,16 @@ python run.py
 
 启动后访问：`http://127.0.0.1:5000`
 
+## v0.9 Mock AI 说明
+
+- 当前使用 `MockAIService`，不会调用任何外部 AI API。
+- 已搭建 Prompt 构建、模拟 AI 调用和生成结果校验流程。
+- `.env.example` 预留未来真实 AI 服务的环境变量配置。
+- 当前版本不需要 API Key，也没有安装 AI SDK。
+
 ## 版本进度
 
-### 当前版本：v0.8
+### 当前版本：v0.9
 
 - [x] Flask 项目基础结构
 - [x] Bootstrap 5 响应式页面
@@ -89,9 +102,11 @@ python run.py
 - [x] 统一错误页面
 - [x] 复习资料类型选择
 - [x] 复习资料预览区域
+- [x] Mock AI 复习资料生成
+- [x] AI 生成流程结构
 
 ### 后续计划
 
-- [ ] AI 复习资料生成
+- [ ] 接入真实 AI API
 - [ ] Markdown 导出
 - [ ] 部署上线

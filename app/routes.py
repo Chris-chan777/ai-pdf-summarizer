@@ -4,7 +4,11 @@ from uuid import uuid4
 from flask import Blueprint, current_app, render_template, request
 from werkzeug.utils import secure_filename
 
-from app.study_options import STUDY_OPTIONS
+from app.services.study_material_service import (
+    StudyMaterialError,
+    generate_study_materials,
+)
+from app.study_options import STUDY_OPTIONS, get_study_options
 from app.utils.pdf_utils import extract_text_from_pdf
 
 # ---------------------------------------------------------------
@@ -34,12 +38,9 @@ def upload():
     """Validate and save an uploaded PDF file."""
     pdf_file = request.files.get("pdf_file")
     submitted_study_options = request.form.getlist("study_options")
-    submitted_values = set(submitted_study_options)
-    selected_study_options = [
-        option
-        for option in STUDY_OPTIONS
-        if option["value"] in submitted_values
-    ]
+    selected_study_options = get_study_options(
+        submitted_study_options
+    )
 
     if pdf_file is None:
         return render_template(
@@ -82,6 +83,22 @@ def upload():
         ), 500
 
     extracted_text = extract_text_from_pdf(file_path)
+    generated_materials = []
+    generation_error = None
+
+    if selected_study_options:
+        try:
+            generated_materials = generate_study_materials(
+                extracted_text,
+                selected_study_options,
+            )
+        except StudyMaterialError as error:
+            generation_error = str(error)
+        except Exception:
+            current_app.logger.exception(
+                "Unexpected study material generation failure"
+            )
+            generation_error = "复习资料生成失败，请稍后重试。"
 
     return render_template(
         "result.html",
@@ -89,6 +106,8 @@ def upload():
         saved_filename=saved_filename,
         extracted_text=extracted_text,
         study_options=selected_study_options,
+        generated_materials=generated_materials,
+        generation_error=generation_error,
     )
 
 
