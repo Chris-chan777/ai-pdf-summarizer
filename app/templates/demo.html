@@ -1,0 +1,6 @@
+﻿{% extends "base.html" %}
+{% block title %}示例效果｜AI PDF 总结工具{% endblock %}
+{% block content %}
+<section class="result-header py-4"><div class="container text-center"><span class="badge text-bg-primary mb-2">示例展示</span><h1 class="h2 fw-bold mb-2">【文档总结】</h1><p class="text-muted mb-0">模拟输入：{{ demo_filename }}</p></div></section>
+<div class="container summary-wrap pb-5">{% include "_summary_cards.html" %}<div class="text-center mt-4"><a href="{{ url_for('main.index') }}" class="btn btn-primary btn-lg px-5">上传我的 PDF</a></div></div>
+{% endblock %}

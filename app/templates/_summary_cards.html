@@ -1,0 +1,48 @@
+﻿<div class="card summary-card mb-3">
+    <div class="card-body p-4">
+        <div class="section-number">一</div>
+        <h2 class="h5 fw-bold">核心主题</h2>
+        <p class="summary-text fw-semibold mb-2">{{ summary.core_theme.summary }}</p>
+        <p class="text-muted mb-0">{{ summary.core_theme.explanation }}</p>
+    </div>
+</div>
+
+<div class="card summary-card mb-3">
+    <div class="card-body p-4">
+        <div class="section-number">二</div>
+        <h2 class="h5 fw-bold mb-4">主要内容</h2>
+        <div class="summary-points">
+            {% for point in summary.main_points %}
+            <article class="point-item {% if not loop.last %}border-bottom{% endif %} pb-3 mb-3">
+                <h3 class="h6 fw-bold mb-3">{{ loop.index }}. {{ point.title }}</h3>
+                <p class="mb-2"><span class="text-muted">解释：</span>{{ point.explanation }}</p>
+                <p class="mb-0"><span class="text-muted">{{ point.detail_label }}：</span>{{ point.detail }}</p>
+            </article>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+<div class="card summary-card mb-3">
+    <div class="card-body p-4">
+        <div class="section-number">三</div>
+        <h2 class="h5 fw-bold">关键结论</h2>
+        <p class="summary-text fw-semibold mb-2">{{ summary.key_conclusion.conclusion }}</p>
+        <p class="text-muted mb-0">现实意义：{{ summary.key_conclusion.significance }}</p>
+    </div>
+</div>
+
+<div class="card summary-card mb-3">
+    <div class="card-body p-4">
+        <div class="section-number">四</div>
+        <h2 class="h5 fw-bold mb-3">关键词</h2>
+        <ul class="keyword-list mb-0">
+            {% for keyword in summary.keywords %}
+            <li class="mb-2">
+                <span class="keyword">{{ keyword.term }}</span>
+                <span class="text-muted">（{{ keyword.meaning }}）</span>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>

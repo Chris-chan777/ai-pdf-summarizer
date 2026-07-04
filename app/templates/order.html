@@ -1,0 +1,75 @@
+﻿{% extends "base.html" %}
+{% block title %}提交文档｜AI PDF 结构化处理{% endblock %}
+{% block content %}
+<section class="py-5">
+    <div class="container">
+        <div class="text-center mb-4">
+            <span class="badge text-bg-primary mb-2">在线文档处理</span>
+            <h1 class="h2 fw-bold mb-2">文档结构化处理服务</h1>
+            <p class="text-muted mb-0">上传 PDF，系统将自动整理并返回清晰的结构化结果</p>
+        </div>
+
+        <div class="row g-4 justify-content-center">
+            <div class="col-lg-7">
+                <div class="card shadow-sm h-100">
+                    <div class="card-header bg-white border-0 pt-4 px-4">
+                        <h2 class="h5 fw-bold mb-0">上传 PDF 文档</h2>
+                    </div>
+                    <div class="card-body p-4">
+                        <form action="{{ url_for('main.upload') }}" method="POST" enctype="multipart/form-data">
+                            <label for="orderPdfFile" class="upload-zone w-100 text-center p-5 mb-3">
+                                <span class="upload-icon d-block mb-3">PDF</span>
+                                <span class="fw-semibold d-block">点击选择 PDF 文件</span>
+                                <span class="small text-muted">仅支持 PDF 格式，文件不超过 16 MB</span>
+                                <input
+                                    type="file"
+                                    class="visually-hidden"
+                                    id="orderPdfFile"
+                                    name="pdf_file"
+                                    accept=".pdf,application/pdf"
+                                    required
+                                >
+                            </label>
+                            <div id="orderFileName" class="small text-muted text-center mb-3">
+                                尚未选择文件
+                            </div>
+                            <button type="submit" class="btn btn-primary btn-lg w-100">
+                                提交并开始处理
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-5">
+                <div class="card shadow-sm h-100">
+                    <div class="card-header bg-white border-0 pt-4 px-4">
+                        <h2 class="h5 fw-bold mb-0">服务说明</h2>
+                    </div>
+                    <div class="card-body p-4">
+                        <p class="fw-semibold">文档结构化处理服务说明：</p>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item px-0 py-3">上传文档即可自动进行结构化整理</li>
+                            <li class="list-group-item px-0 py-3">提取核心内容与重点信息</li>
+                            <li class="list-group-item px-0 py-3">输出结构化阅读结果</li>
+                            <li class="list-group-item px-0 py-3">平均处理时间约 3 分钟</li>
+                        </ul>
+                        <div class="alert alert-light border mt-4 mb-0 small text-muted">
+                            提交后请保持页面开启，处理完成后将自动展示总结结果。
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.getElementById('orderPdfFile').addEventListener('change', function () {
+    document.getElementById('orderFileName').textContent =
+        this.files[0] ? this.files[0].name : '尚未选择文件';
+});
+</script>
+{% endblock %}
